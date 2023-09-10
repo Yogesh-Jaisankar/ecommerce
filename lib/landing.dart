@@ -157,6 +157,19 @@ class _LandingState extends State<Landing> {
               ],
             ),
           ),
+          SizedBox(height: 10),
+          Visibility(
+            visible: !is_Switched, // Show Curated when the switch is off
+            child: Container(
+              child: Curated(),
+            ),
+          ),
+          Visibility(
+            visible: is_Switched, // Show Trending when the switch is on
+            child: Container(
+              child: Trending(),
+            ),
+          ),
         ],
       ),
     );

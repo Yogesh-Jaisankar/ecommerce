@@ -113,6 +113,7 @@ class _HomeState extends State<Home> {
       ),
       body: PageView(
         controller: _pageController,
+        physics: NeverScrollableScrollPhysics(),
         onPageChanged: (int newIndex) {
           setState(() {
             current_index = newIndex;
