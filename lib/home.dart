@@ -1,11 +1,12 @@
 import 'package:ecommerce/account.dart';
 import 'package:ecommerce/cart.dart';
 import 'package:ecommerce/categories.dart';
-import 'package:ecommerce/curated.dart';
+import 'package:ecommerce/landing.dart';
 import 'package:ecommerce/notifications.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key});
@@ -17,11 +18,22 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   int current_index = 0;
   final PageController _pageController = PageController();
+  bool isSwitched = false;
+
+  late SharedPreferences _prefs;
 
   @override
-  void dispose() {
-    _pageController.dispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    _initializeSharedPreferences();
+    // ...
+  }
+
+  Future<void> _initializeSharedPreferences() async {
+    _prefs = await SharedPreferences.getInstance();
+    setState(() {
+      isSwitched = _prefs.getBool('switchState') ?? false;
+    });
   }
 
   @override
@@ -34,7 +46,7 @@ class _HomeState extends State<Home> {
               height: 45,
               width: 170,
               decoration: BoxDecoration(
-                color: Colors.grey[800],
+                color: isSwitched ? Colors.grey[800] : Colors.lightBlue,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Center(
@@ -108,7 +120,13 @@ class _HomeState extends State<Home> {
         },
         children: [
           // Replace these with your different pages/widgets
-          curated(),
+          Landing(
+            onSwitchChanged: (bool newValue) {
+              setState(() {
+                isSwitched = newValue;
+              });
+            },
+          ),
           Category(),
           Notifications(),
           Account(),
