@@ -44,7 +44,7 @@ class _HomeState extends State<Home> {
           children: [
             Container(
               height: 45,
-              width: 170,
+              width: 180,
               decoration: BoxDecoration(
                 color: isSwitched ? Colors.grey[800] : Colors.lightBlue,
                 borderRadius: BorderRadius.circular(10),
@@ -78,7 +78,7 @@ class _HomeState extends State<Home> {
             Spacer(),
             Container(
               height: 45,
-              width: 170,
+              width: 180,
               decoration: BoxDecoration(
                 color: Colors.green[100],
                 borderRadius: BorderRadius.circular(10),

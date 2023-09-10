@@ -64,7 +64,7 @@ class _CuratedState extends State<Curated> {
           children: [
             Stack(children: [
               Container(
-                height: 300, // Adjust the height as needed
+                height: 200, // Adjust the height as needed
                 child: PageView.builder(
                   controller: _pageController,
                   itemCount: ImageList.length,

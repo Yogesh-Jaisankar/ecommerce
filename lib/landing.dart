@@ -26,9 +26,9 @@ class _LandingState extends State<Landing> {
   List<String> textList = [
     'Iphone',
     'Kurti',
-    'FloorMat',
-    'headphones',
-    'jackets'
+    'Floor Matresses',
+    'Headphones',
+    'Jackets'
   ];
 
   @override
