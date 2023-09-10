@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:ecommerce/cart.dart';
+import 'package:ecommerce/reviews.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class Curated extends StatefulWidget {
   const Curated({super.key});
@@ -175,7 +177,7 @@ class _CuratedState extends State<Curated> {
                     Text(
                       "Items in your cart",
                       style: TextStyle(
-                          color: Colors.black54, fontWeight: FontWeight.bold),
+                          color: Colors.black87, fontWeight: FontWeight.bold),
                     ),
                     Spacer(),
                     MaterialButton(
@@ -185,7 +187,7 @@ class _CuratedState extends State<Curated> {
                             MaterialPageRoute(builder: (context) => Cart()),
                           );
                         },
-                        color: Colors.blue,
+                        color: Colors.indigoAccent,
                         child: Text(
                           "Go to Cart",
                           style: TextStyle(
@@ -198,6 +200,10 @@ class _CuratedState extends State<Curated> {
             SizedBox(height: 10),
             Container(
               height: 260,
+              decoration: BoxDecoration(
+                  border: Border(
+                      bottom:
+                          BorderSide(width: 1, color: Colors.grey.shade300))),
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: [
@@ -211,6 +217,79 @@ class _CuratedState extends State<Curated> {
                       "1200", "30 % OFF"),
                   _cartItems("assets/images/shoe.png", "Nike", "Description",
                       "1200", "30 % OFF"),
+                ],
+              ),
+            ),
+            SizedBox(height: 10),
+            Container(
+              height: 50,
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Help India Make Better Choices",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    Spacer(),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Reviews()),
+                        );
+                      },
+                      child: Stack(
+                        children: [
+                          Container(
+                            height: 28,
+                            width: 28,
+                            decoration: BoxDecoration(
+                                color: Colors.indigoAccent,
+                                borderRadius: BorderRadius.circular(100)),
+                          ),
+                          Positioned(
+                            top: 0,
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            child: Icon(
+                              Icons.chevron_right_rounded,
+                              color: Colors.white,
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              height: 180,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  _reviewItems(
+                    "assets/images/power.png",
+                    "Apple 20W, USB-C power",
+                    "Delivered on August 12, 2023",
+                  ),
+                  _reviewItems(
+                    "assets/images/power.png",
+                    "Apple 20W, USB-C power",
+                    "Delivered on August 12, 2023",
+                  ),
+                  _reviewItems(
+                    "assets/images/power.png",
+                    "Apple 20W, USB-C power",
+                    "Delivered on August 12, 2023",
+                  ),
                 ],
               ),
             )
@@ -354,6 +433,107 @@ class _CuratedState extends State<Curated> {
               ),
             )
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _reviewItems(String imagePath, String p_name, String delivery_date) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        width: 320,
+        height: 100,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(color: Colors.grey.shade300)),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 70,
+                    width: 70,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(color: Colors.grey.shade300)),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(15.0),
+                      child: Image.asset(imagePath),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: 70,
+                      width: 210,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  p_name,
+                                  // "Apple 20W, USB-C power",
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: false,
+                                  style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  delivery_date,
+                                  //"Delivered on August 12, 2023",
+                                  overflow: TextOverflow.ellipsis,
+                                  softWrap: false,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Container(
+                    height: 40,
+                    width: double.maxFinite,
+                    decoration: BoxDecoration(
+                        color: Colors.grey.shade300,
+                        border: Border.all(color: Colors.grey.shade300),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Center(
+                      child: RatingBar.builder(
+                          glow: true,
+                          glowColor: Colors.green,
+                          itemSize: 25,
+                          minRating: 1,
+                          maxRating: 5,
+                          direction: Axis.horizontal,
+                          itemBuilder: (context, _) => Icon(
+                                Icons.star,
+                                color: Colors.green,
+                              ),
+                          onRatingUpdate: (rating) {
+                            print("Rated $rating");
+                          }),
+                    )),
+              )
+            ],
+          ),
         ),
       ),
     );

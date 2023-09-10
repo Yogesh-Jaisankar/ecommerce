@@ -65,13 +65,14 @@ class _LandingState extends State<Landing> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
         title: Row(
           children: [
             Container(
               height: 45,
               width: 160,
               decoration: BoxDecoration(
-                color: is_Switched ? Colors.grey[800] : Colors.lightBlue,
+                color: is_Switched ? Colors.grey[800] : Colors.blue,
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Center(
