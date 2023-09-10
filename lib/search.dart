@@ -5,10 +5,16 @@ class SearchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Search Page'),
+        centerTitle: false,
+        title: Text(
+          'Search Page',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
       body: Center(
-        child: Text('This is the search page content.'),
+        child: Text(
+          'This is the search page content.',
+        ),
       ),
     );
   }

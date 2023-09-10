@@ -5,7 +5,6 @@ import 'package:ecommerce/landing.dart';
 import 'package:ecommerce/notifications.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Home extends StatefulWidget {
@@ -39,78 +38,6 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Row(
-          children: [
-            Container(
-              height: 45,
-              width: 180,
-              decoration: BoxDecoration(
-                color: isSwitched ? Colors.grey[800] : Colors.lightBlue,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      "assets/images/flipkart-icon.png",
-                      height: 20,
-                      scale: 1,
-                    ),
-                    const Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Text(
-                        "Flipkart",
-                        style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                          fontSize: 17,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Spacer(),
-            Container(
-              height: 45,
-              width: 180,
-              decoration: BoxDecoration(
-                color: Colors.green[100],
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Center(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Image.asset(
-                      "assets/images/grocery.png",
-                      height: 20,
-                    ),
-                    const Padding(
-                      padding: const EdgeInsets.all(5.0),
-                      child: Text(
-                        "Grocery",
-                        style: TextStyle(
-                          fontStyle: FontStyle.italic,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          fontSize: 17,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
       body: PageView(
         controller: _pageController,
         physics: NeverScrollableScrollPhysics(),

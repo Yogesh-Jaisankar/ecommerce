@@ -16,11 +16,8 @@ class Landing extends StatefulWidget {
 
 class _LandingState extends State<Landing> {
   bool is_Switched = false;
-
   int current_index = 0;
-
   Timer? textTimer;
-
   late SharedPreferences _prefs;
 
   List<String> textList = [
@@ -67,6 +64,78 @@ class _LandingState extends State<Landing> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Row(
+          children: [
+            Container(
+              height: 45,
+              width: 160,
+              decoration: BoxDecoration(
+                color: is_Switched ? Colors.grey[800] : Colors.lightBlue,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/images/flipkart-icon.png",
+                      height: 20,
+                      scale: 1,
+                    ),
+                    const Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Text(
+                        "Flipkart",
+                        style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                          fontSize: 17,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Spacer(),
+            Container(
+              height: 45,
+              width: 160,
+              decoration: BoxDecoration(
+                color: Colors.green[100],
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/images/grocery.png",
+                      height: 20,
+                    ),
+                    const Padding(
+                      padding: const EdgeInsets.all(5.0),
+                      child: Text(
+                        "Grocery",
+                        style: TextStyle(
+                          fontStyle: FontStyle.italic,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black,
+                          fontSize: 17,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
       body: Column(
         children: [
           Container(
@@ -161,13 +230,13 @@ class _LandingState extends State<Landing> {
           Visibility(
             visible: !is_Switched, // Show Curated when the switch is off
             child: Container(
-              child: Curated(),
+              child: Trending(),
             ),
           ),
           Visibility(
             visible: is_Switched, // Show Trending when the switch is on
             child: Container(
-              child: Trending(),
+              child: Curated(),
             ),
           ),
         ],
