@@ -65,6 +65,7 @@ class _CuratedState extends State<Curated> {
     return Expanded(
       child: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Stack(children: [
               Container(
@@ -123,12 +124,12 @@ class _CuratedState extends State<Curated> {
                   child: ListView(
                 scrollDirection: Axis.horizontal,
                 children: [
-                  _sponsored("assets/images/coin.png", "Super Coin"),
-                  _sponsored("assets/images/loan.png", "Personal Loan"),
-                  _sponsored("assets/images/money.png", "Money+"),
-                  _sponsored("assets/images/games.png", "Game zone"),
-                  _sponsored("assets/images/credit.png", "EMI"),
-                  _sponsored("assets/images/camera.png", "Camera"),
+                  _productx("assets/images/coin.png", "Super Coin"),
+                  _productx("assets/images/loan.png", "Personal Loan"),
+                  _productx("assets/images/money.png", "Money+"),
+                  _productx("assets/images/games.png", "Game zone"),
+                  _productx("assets/images/credit.png", "EMI"),
+                  _productx("assets/images/camera.png", "Camera"),
                 ],
               )),
             ),
@@ -292,14 +293,26 @@ class _CuratedState extends State<Curated> {
                   ),
                 ],
               ),
-            )
+            ),
+            SizedBox(height: 5),
+            Container(
+              height: 50,
+              child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Text(
+                    "Sponsored",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    textAlign: TextAlign.start,
+                  )),
+            ),
+            SizedBox(height: 5),
           ],
         ),
       ),
     );
   }
 
-  Widget _sponsored(String imagePath, String label) {
+  Widget _productx(String imagePath, String label) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
