@@ -17,6 +17,46 @@ class _CuratedState extends State<Curated> {
   int _currentIndex = 0;
 
   late PageController _pageController;
+
+  final List<Map<String, dynamic>> gridMap = [
+    {
+      "title": "white sneaker with adidas logo",
+      "price": "\$255",
+      "images":
+          "https://images.unsplash.com/photo-1600185365926-3a2ce3cdb9eb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=725&q=80",
+    },
+    {
+      "title": "Black Jeans with blue stripes",
+      "price": "\$245",
+      "images":
+          "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
+    },
+    {
+      "title": "Red shoes with black stripes",
+      "price": "\$155",
+      "images":
+          "https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8c2hvZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
+    },
+    {
+      "title": "Gamma shoes with beta brand.",
+      "price": "\$275",
+      "images":
+          "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
+    },
+    {
+      "title": "Alpha t-shirt for alpha testers.",
+      "price": "\$25",
+      "images":
+          "https://images.unsplash.com/photo-1583743814966-8936f5b7be1a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
+    },
+    {
+      "title": "Beta jeans for beta testers",
+      "price": "\$27",
+      "images":
+          "https://images.unsplash.com/photo-1602293589930-45aad59ba3ab?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=387&q=80",
+    },
+  ];
+
   List<String> ImageList = [
     'assets/images/loan.jpg',
     'assets/images/phone.jpg',
@@ -134,178 +174,281 @@ class _CuratedState extends State<Curated> {
               )),
             ),
             SizedBox(height: 10),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                children: [
-                  Container(
-                    alignment: Alignment.topLeft,
-                    height: 50,
-                    child: Image.asset("assets/images/offers.png"),
-                  ),
-                  SizedBox(width: 10),
-                  Center(
-                    child: Text(
-                      "Big  Brands  Big  Savings!",
-                      style: TextStyle(
-                          //fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          fontFamily: "Monton"),
-                    ),
-                  )
-                ],
-              ),
-            ),
-            SizedBox(height: 10),
-            Container(
-                height: 150,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  children: [
-                    _bigdaysale("assets/images/card.png", "Woodland & More"),
-                    _bigdaysale("assets/images/iphone.png", "iPhone"),
-                    _bigdaysale("assets/images/shoe.png", "Nike"),
-                    _bigdaysale("assets/images/laptops.png", "HP"),
-                    // Add more items here as needed
-                  ],
-                )),
-            Container(
-              height: 50,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Text(
-                      "Items in your cart",
-                      style: TextStyle(
-                          color: Colors.black87, fontWeight: FontWeight.bold),
-                    ),
-                    Spacer(),
-                    MaterialButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => Cart()),
-                          );
-                        },
-                        color: Colors.indigoAccent,
+            //Big brands Big Savings
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    children: [
+                      Container(
+                        alignment: Alignment.topLeft,
+                        height: 50,
+                        child: Image.asset("assets/images/offers.png"),
+                      ),
+                      SizedBox(width: 10),
+                      Center(
                         child: Text(
-                          "Go to Cart",
+                          "Big  Brands  Big  Savings!",
                           style: TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.bold),
-                        ))
-                  ],
+                              //fontWeight: FontWeight.bold,
+                              fontSize: 15,
+                              fontFamily: "Monton"),
+                        ),
+                      )
+                    ],
+                  ),
                 ),
-              ),
+                Container(
+                    height: 150,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        _bigdaysale(
+                            "assets/images/card.png", "Woodland & More"),
+                        _bigdaysale("assets/images/iphone.png", "iPhone"),
+                        _bigdaysale("assets/images/shoe.png", "Nike"),
+                        _bigdaysale("assets/images/laptops.png", "HP"),
+                        // Add more items here as needed
+                      ],
+                    )),
+              ],
             ),
-            SizedBox(height: 10),
-            Container(
-              height: 260,
-              decoration: BoxDecoration(
-                  border: Border(
-                      bottom:
-                          BorderSide(width: 1, color: Colors.grey.shade300))),
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  _cartItems("assets/images/shoe.png", "Nike", "Description",
-                      "1200", "30 % OFF"),
-                  _cartItems("assets/images/shoe.png", "Nike", "Description",
-                      "1200", "30 % OFF"),
-                  _cartItems("assets/images/shoe.png", "Nike", "Description",
-                      "1200", "30 % OFF"),
-                  _cartItems("assets/images/shoe.png", "Nike", "Description",
-                      "1200", "30 % OFF"),
-                  _cartItems("assets/images/shoe.png", "Nike", "Description",
-                      "1200", "30 % OFF"),
-                ],
-              ),
-            ),
-            SizedBox(height: 10),
-            Container(
-              height: 50,
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Help India Make Better Choices",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                        color: Colors.black87,
-                      ),
+            //Cart Items
+            Column(
+              children: [
+                Container(
+                  height: 50,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      children: [
+                        Text(
+                          "Items in your cart",
+                          style: TextStyle(
+                              color: Colors.black87,
+                              fontWeight: FontWeight.bold),
+                        ),
+                        Spacer(),
+                        MaterialButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => Cart()),
+                              );
+                            },
+                            color: Colors.indigoAccent,
+                            child: Text(
+                              "Go to Cart",
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold),
+                            ))
+                      ],
                     ),
-                    Spacer(),
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Reviews()),
-                        );
-                      },
-                      child: Stack(
-                        children: [
-                          Container(
-                            height: 28,
-                            width: 28,
-                            decoration: BoxDecoration(
-                                color: Colors.indigoAccent,
-                                borderRadius: BorderRadius.circular(100)),
-                          ),
-                          Positioned(
-                            top: 0,
-                            bottom: 0,
-                            left: 0,
-                            right: 0,
-                            child: Icon(
-                              Icons.chevron_right_rounded,
-                              color: Colors.white,
-                            ),
-                          )
-                        ],
-                      ),
-                    )
-                  ],
+                  ),
                 ),
-              ),
-            ),
-            Container(
-              height: 180,
-              child: ListView(
-                scrollDirection: Axis.horizontal,
-                children: [
-                  _reviewItems(
-                    "assets/images/power.png",
-                    "Apple 20W, USB-C power",
-                    "Delivered on August 12, 2023",
+                SizedBox(height: 10),
+                Container(
+                  height: 260,
+                  decoration: BoxDecoration(
+                      border: Border(
+                          bottom: BorderSide(
+                              width: 1, color: Colors.grey.shade300))),
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      _cartItems("assets/images/shoe.png", "Nike",
+                          "Description", "1200", "30 % OFF"),
+                      _cartItems("assets/images/shoe.png", "Nike",
+                          "Description", "1200", "30 % OFF"),
+                      _cartItems("assets/images/shoe.png", "Nike",
+                          "Description", "1200", "30 % OFF"),
+                      _cartItems("assets/images/shoe.png", "Nike",
+                          "Description", "1200", "30 % OFF"),
+                      _cartItems("assets/images/shoe.png", "Nike",
+                          "Description", "1200", "30 % OFF"),
+                    ],
                   ),
-                  _reviewItems(
-                    "assets/images/power.png",
-                    "Apple 20W, USB-C power",
-                    "Delivered on August 12, 2023",
-                  ),
-                  _reviewItems(
-                    "assets/images/power.png",
-                    "Apple 20W, USB-C power",
-                    "Delivered on August 12, 2023",
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
-            SizedBox(height: 5),
-            Container(
-              height: 50,
-              child: Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Text(
-                    "Sponsored",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                    textAlign: TextAlign.start,
-                  )),
+            //Ratings
+            Column(
+              children: [
+                SizedBox(height: 10),
+                Container(
+                  height: 50,
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Help India Make Better Choices",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                            color: Colors.black87,
+                          ),
+                        ),
+                        Spacer(),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => Reviews()),
+                            );
+                          },
+                          child: Stack(
+                            children: [
+                              Container(
+                                height: 28,
+                                width: 28,
+                                decoration: BoxDecoration(
+                                    color: Colors.indigoAccent,
+                                    borderRadius: BorderRadius.circular(100)),
+                              ),
+                              Positioned(
+                                top: 0,
+                                bottom: 0,
+                                left: 0,
+                                right: 0,
+                                child: Icon(
+                                  Icons.chevron_right_rounded,
+                                  color: Colors.white,
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 180,
+                  child: ListView(
+                    scrollDirection: Axis.horizontal,
+                    children: [
+                      _reviewItems(
+                        "assets/images/power.png",
+                        "Apple 20W, USB-C power",
+                        "Delivered on August 12, 2023",
+                      ),
+                      _reviewItems(
+                        "assets/images/power.png",
+                        "Apple 20W, USB-C power",
+                        "Delivered on August 12, 2023",
+                      ),
+                      _reviewItems(
+                        "assets/images/power.png",
+                        "Apple 20W, USB-C power",
+                        "Delivered on August 12, 2023",
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-            SizedBox(height: 5),
+            //Sponsored
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 5),
+                Container(
+                  height: 50,
+                  child: Padding(
+                      padding: const EdgeInsets.fromLTRB(8, 0, 0, 0),
+                      child: Text(
+                        "Sponsored",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
+                        textAlign: TextAlign.start,
+                      )),
+                ),
+                // Container(
+                //   height: 170,
+                //   child: ListView(
+                //     shrinkWrap: true,
+                //     semanticChildCount: 3,
+                //     // itemExtent: 3,
+                //     scrollDirection: Axis.horizontal,
+                //     children: [
+                //       _sponsored(
+                //           "assets/images/shoes.jpg", "Description", "Price"),
+                //       _sponsored(
+                //           "assets/images/shoes.jpg", "Description", "Price"),
+                //       _sponsored(
+                //           "assets/images/shoes.jpg", "Description", "Price"),
+                //       _sponsored(
+                //           "assets/images/shoes.jpg", "Description", "Price"),
+                //     ],
+                //   ),
+                // )
+                Container(
+                    height: 500,
+                    child: GridView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          mainAxisExtent: 170,
+                          crossAxisCount: 3,
+                        ),
+                        itemCount: gridMap.length,
+                        itemBuilder: (_, index) {
+                          return Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  border:
+                                      Border.all(color: Colors.grey.shade300),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    height: 110,
+                                    width: 120,
+                                    decoration: BoxDecoration(
+                                        color: Colors.green,
+                                        borderRadius: BorderRadius.circular(5)),
+                                    child: ClipRRect(
+                                        borderRadius: BorderRadius.only(
+                                            topRight: Radius.circular(5),
+                                            topLeft: Radius.circular(5)),
+                                        child: Image.network(
+                                          "${gridMap.elementAt(index)['images']}",
+                                          fit: BoxFit.cover,
+                                        )),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(3.0),
+                                    child: Text(
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                      softWrap: false,
+                                      "${gridMap.elementAt(index)['title']}",
+                                      style: TextStyle(
+                                        fontSize: 10,
+                                      ),
+                                    ),
+                                  ),
+                                  Text(
+                                    "${gridMap.elementAt(index)['price']}",
+                                    style: TextStyle(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        }))
+              ],
+            ),
           ],
         ),
       ),
