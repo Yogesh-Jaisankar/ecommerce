@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "861084873450",
+    "project_id": "flipkart-ecom",
+    "storage_bucket": "flipkart-ecom.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:861084873450:android:ad3d1ab47613de8ef61d93",
+        "android_client_info": {
+          "package_name": "com.yogeshtechworks.ecommerce"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVwdP2rifCSE9UZJczwBfD870j5Grqqb4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
