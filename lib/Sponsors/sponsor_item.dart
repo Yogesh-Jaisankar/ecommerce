@@ -115,6 +115,7 @@ class _SponsorItemState extends State<SponsorItem> {
             ),
             SizedBox(height: 5),
             Divider(),
+            //Pick Image
             MaterialButton(
                 onPressed: () {
                   _pickImage();
@@ -127,8 +128,9 @@ class _SponsorItemState extends State<SponsorItem> {
                       color: Colors.white, fontWeight: FontWeight.bold),
                 )),
             SizedBox(height: 20),
+            //Desc
             Container(
-              width: 200,
+              width: 300,
               height: 100,
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey.shade300),
@@ -153,8 +155,9 @@ class _SponsorItemState extends State<SponsorItem> {
               ),
             ),
             SizedBox(height: 20),
+            //Price
             Container(
-              width: 200,
+              width: 300,
               height: 100,
               decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey.shade300),
