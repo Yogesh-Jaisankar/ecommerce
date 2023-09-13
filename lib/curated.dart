@@ -368,25 +368,6 @@ class _CuratedState extends State<Curated> {
                         textAlign: TextAlign.start,
                       )),
                 ),
-                // Container(
-                //   height: 170,
-                //   child: ListView(
-                //     shrinkWrap: true,
-                //     semanticChildCount: 3,
-                //     // itemExtent: 3,
-                //     scrollDirection: Axis.horizontal,
-                //     children: [
-                //       _sponsored(
-                //           "assets/images/shoes.jpg", "Description", "Price"),
-                //       _sponsored(
-                //           "assets/images/shoes.jpg", "Description", "Price"),
-                //       _sponsored(
-                //           "assets/images/shoes.jpg", "Description", "Price"),
-                //       _sponsored(
-                //           "assets/images/shoes.jpg", "Description", "Price"),
-                //     ],
-                //   ),
-                // )
                 Container(
                     height: 500,
                     child: GridView.builder(

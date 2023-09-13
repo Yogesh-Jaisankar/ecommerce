@@ -1,4 +1,5 @@
 import 'package:ecommerce/home.dart';
+import 'package:ecommerce/Sponsors/sponsors.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -18,7 +19,9 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: Home(),
+      home: Sponsors(),
+
+      //Home(),
     );
   }
 }
