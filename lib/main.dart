@@ -1,9 +1,10 @@
 import 'package:ecommerce/Authentication/login.dart';
-import 'package:ecommerce/home.dart';
-import 'package:ecommerce/Sponsors/sponsors.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
