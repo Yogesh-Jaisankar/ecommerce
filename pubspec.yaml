@@ -43,6 +43,13 @@ dependencies:
   image_picker: ^1.0.4
   firebase_core: ^2.15.1
   firebase_auth: ^4.9.0
+  country_picker: ^2.0.21
+  cloud_firestore: ^4.9.1
+  firebase_storage: ^11.2.6
+  pinput: ^3.0.1
+  get: ^4.6.5
+  internet_connection_checker: ^0.0.1
+
 
 dev_dependencies:
   flutter_test:
