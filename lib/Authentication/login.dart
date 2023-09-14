@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:country_picker/country_picker.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
@@ -23,32 +24,7 @@ class _loginState extends State<login> {
   bool _isLoading = false;
   bool _isRefreshing = false;
   bool _isInternetConnected = true;
-
-  Future<void> _handleRefresh() async {
-    bool isInternetConnected = await InternetConnectionChecker().hasConnection;
-
-    if (!isInternetConnected) {
-      // Handle no internet connectivity, show a message or take action
-      // For example, you can show a snackbar or a dialog
-      return;
-    }
-
-    if (!_isRefreshing) {
-      setState(() {
-        _isRefreshing = true;
-      });
-
-      // Perform refreshing tasks here
-
-      // Simulate a delay for demonstration purposes
-      await Future.delayed(Duration(seconds: 2));
-
-      setState(() {
-        // Update any necessary state here
-        _isRefreshing = false;
-      });
-    }
-  }
+  bool isPhoneNumberValid = false;
 
   @override
   void initState() {
@@ -109,54 +85,83 @@ class _loginState extends State<login> {
         },
         verificationFailed: (FirebaseAuthException e) {
           setState(() {
-            _isLoading = false; // Hide progress indicator
+            Get.snackbar(e.message.toString(), "Failed",
+                colorText: Colors.black54,
+                snackPosition: SnackPosition.TOP,
+                backgroundColor: Colors.white);
+            _isLoading = false;
+            // Hide progress indicator
           });
           // authentication failed, do something
         },
         codeSent: (String verificationId, int? resendToken) async {
           // code sent to phone number, save verificationId for later use
+
           String smsCode = ''; // get sms code from user
           PhoneAuthCredential credential = PhoneAuthProvider.credential(
             verificationId: verificationId,
             smsCode: smsCode,
           );
+          Get.snackbar(
+            "Verification Code Sent",
+            "Please check your SMS for the verification code.",
+            colorText: Colors.black54,
+            snackPosition: SnackPosition.BOTTOM,
+            backgroundColor: Colors.white,
+          );
+
           Get.to(() => OtpPage(), arguments: [verificationId]);
           await auth.signInWithCredential(credential);
           // authentication successful, do something
         },
         codeAutoRetrievalTimeout: (String verificationId) {
           setState(() {
-            _isLoading = false; // Hide progress indicator when timeout occurs
+            _isLoading = false;
+            // Hide progress indicator when timeout occurs
           });
         },
       );
     } on FirebaseAuthException catch (e) {
+      // Show a SnackBar with the Firebase Authentication error message
       Get.snackbar(
         e.message.toString(),
         "Failed",
         colorText: Colors.black54,
         snackPosition: SnackPosition.BOTTOM,
       );
+
+      setState(() {
+        _isLoading = false; // Hide progress indicator
+      });
+    } catch (e) {
+      // Handle other exceptions if needed
     }
   }
 
   void _userLogin() {
     String mobile = _phoneNumberController.text;
-    if (mobile == "") {
-      Get.snackbar(
-        "Please enter the mobile number!",
-        "Login Failed",
-        duration: Duration(milliseconds: 500),
-        colorText: Colors.black54,
-        snackPosition: SnackPosition.BOTTOM,
-      );
-    } else {
+
+    // Check if the phone number has at least 10 characters
+    if (mobile.length >= 10) {
       setState(() {
+        isPhoneNumberValid = true;
         _isLoading = true; // Show progress indicator
       });
 
       // Proceed with phone number authentication
       signInWithPhoneNumber("+${selectedCountry.phoneCode}$mobile");
+    } else {
+      setState(() {
+        isPhoneNumberValid = false;
+      });
+
+      Get.snackbar(
+          "Please enter a valid mobile number with at least 10 digits.",
+          "To Continue",
+          duration: Duration(seconds: 2),
+          colorText: Colors.black54,
+          snackPosition: SnackPosition.TOP,
+          backgroundColor: Colors.white);
     }
   }
 
@@ -269,6 +274,10 @@ class _loginState extends State<login> {
                           Container(
                             width: 200,
                             child: TextFormField(
+                              inputFormatters: <TextInputFormatter>[
+                                FilteringTextInputFormatter
+                                    .digitsOnly, // Allow only digits
+                              ],
                               onChanged: (value) {
                                 setState(() {
                                   _phoneNumberController.text = value;
@@ -389,18 +398,36 @@ class _loginState extends State<login> {
                       width: double.infinity,
                       height: 50,
                       child: MaterialButton(
-                          elevation: 0,
-                          highlightColor: Colors.transparent,
-                          onPressed: () {
-                            _userLogin();
-                          },
-                          color: Colors.orange,
-                          child: Text(
-                            "Continue",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          )),
+                        elevation: 0,
+                        highlightColor: Colors.transparent,
+                        onPressed: _isInternetConnected
+                            ? (_isLoading ? null : _userLogin)
+                            : () {
+                                // Show Snackbar for no internet connection
+                                Get.snackbar("No Internet Connection",
+                                    "Check your network connection",
+                                    colorText: Colors.black54,
+                                    snackPosition: SnackPosition.TOP,
+                                    backgroundColor: Colors.white);
+                              },
+                        child: _isLoading
+                            ? CircularProgressIndicator(
+                                valueColor:
+                                    AlwaysStoppedAnimation(Colors.orangeAccent),
+                              )
+                            : Text(
+                                'Continue',
+                                style: TextStyle(
+                                  color: _isInternetConnected
+                                      ? Colors.black
+                                      : Colors.grey,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                        color: _isInternetConnected
+                            ? Colors.orange
+                            : Colors.grey.shade300,
+                      ),
                     ),
                   ),
                 ],

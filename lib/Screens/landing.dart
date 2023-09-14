@@ -65,6 +65,7 @@ class _LandingState extends State<Landing> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        surfaceTintColor: Colors.transparent,
         backgroundColor: Colors.white,
         title: Row(
           children: [

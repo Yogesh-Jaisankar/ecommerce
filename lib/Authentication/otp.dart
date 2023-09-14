@@ -11,6 +11,11 @@ class OtpPage extends StatefulWidget {
 
 class _OtpPageState extends State<OtpPage> {
   bool _isVerified = false;
+  bool _isButtonDisabled = false;
+  String? otpCode;
+  final String verificationId = Get.arguments[0];
+  FirebaseAuth auth = FirebaseAuth.instance;
+  bool _isSnackbarVisible = false;
 
   Future<bool> _onWillPop() async {
     return false; //<-- SEE HERE
@@ -22,9 +27,6 @@ class _OtpPageState extends State<OtpPage> {
   final TextEditingController _fourthController = TextEditingController();
   final TextEditingController _fifthController = TextEditingController();
   final TextEditingController _sixthController = TextEditingController();
-  String? otpCode;
-  final String verificationId = Get.arguments[0];
-  FirebaseAuth auth = FirebaseAuth.instance;
 
   @override
   void initState() {
@@ -66,18 +68,26 @@ class _OtpPageState extends State<OtpPage> {
   void verifyOtp(String verificationId, String userOtp) async {
     try {
       PhoneAuthCredential creds = PhoneAuthProvider.credential(
-          verificationId: verificationId, smsCode: userOtp);
+          verificationId: verificationId,
+          smsCode: userOtp); // Provide the SMS code here
       User? user = (await auth.signInWithCredential(creds)).user;
       if (user != null) {
         setState(() {
           _isVerified = true;
+          _isButtonDisabled = false;
+          _isSnackbarVisible = false;
         });
-        // Delay navigation to simulate progress
         await Future.delayed(Duration(seconds: 2));
-        Navigator.pushAndRemoveUntil(context,
-            MaterialPageRoute(builder: (C) => Home()), (route) => false);
+        Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (C) => Home()),
+          (route) => false,
+        );
       }
     } on FirebaseAuthException catch (e) {
+      setState(() {
+        _isButtonDisabled = false;
+      });
       Get.snackbar(
         e.message.toString(),
         "Failed",
@@ -100,39 +110,42 @@ class _OtpPageState extends State<OtpPage> {
 
   void _manualVerify() {
     if (otpCode != null && otpCode!.length == 6) {
-      verifyOtp(verificationId, otpCode!);
+      if (!_isButtonDisabled) {
+        setState(() {
+          _isButtonDisabled = true;
+        });
+        verifyOtp(verificationId, otpCode!);
+      } else {
+        if (!_isSnackbarVisible) {
+          _showWaitSnackbar();
+        }
+      }
     } else {
       // Show an error message if OTP is not complete
-      Get.snackbar(
-        "Enter 6-Digit code",
-        "Failed to verify",
-        colorText: Colors.black54,
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      Get.snackbar("Enter 6-Digit code", "Failed to verify",
+          colorText: Colors.black,
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.white);
     }
   }
 
-  _buildSocialLogo(file) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Image.asset(
-          file,
-          height: 38.5,
-        ),
-      ],
-    );
+  void _showWaitSnackbar() {
+    if (mounted) {
+      Get.snackbar("Please Wait", "You must wait before trying again.",
+          colorText: Colors.black,
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.white);
+      _isSnackbarVisible = true;
+      // Set a timer to hide the snackbar after a certain time (e.g., 5 seconds)
+      Future.delayed(Duration(seconds: 5)).then((_) {
+        if (mounted) {
+          setState(() {
+            _isSnackbarVisible = false; // Reset _isSnackbarVisible
+          });
+        }
+      });
+    }
   }
-
-  final ButtonStyle style = ElevatedButton.styleFrom(
-      minimumSize: Size(188, 48),
-      backgroundColor: Colors.teal,
-      elevation: 6,
-      textStyle: const TextStyle(fontSize: 16),
-      shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-        Radius.circular(10),
-      )));
 
   Widget buildText(String text) => Center(
         child: Text(
@@ -263,7 +276,9 @@ class _OtpPageState extends State<OtpPage> {
                         height: 45,
                         width: 160,
                         decoration: BoxDecoration(
-                          color: Colors.green[100],
+                          color: _isButtonDisabled
+                              ? Colors.grey[300]
+                              : Colors.green[300],
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Center(
