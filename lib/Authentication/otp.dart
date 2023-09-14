@@ -1,6 +1,4 @@
-import 'package:ecommerce/account.dart';
-import 'package:ecommerce/home.dart';
-import 'package:ecommerce/landing.dart';
+import 'package:ecommerce/Screens/home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';

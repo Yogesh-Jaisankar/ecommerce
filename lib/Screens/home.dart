@@ -1,8 +1,8 @@
-import 'package:ecommerce/account.dart';
-import 'package:ecommerce/cart.dart';
-import 'package:ecommerce/categories.dart';
-import 'package:ecommerce/landing.dart';
-import 'package:ecommerce/notifications.dart';
+import 'package:ecommerce/Screens/account.dart';
+import 'package:ecommerce/Screens/cart.dart';
+import 'package:ecommerce/Screens/categories.dart';
+import 'package:ecommerce/Screens/landing.dart';
+import 'package:ecommerce/Screens/notifications.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';

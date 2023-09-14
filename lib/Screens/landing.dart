@@ -1,7 +1,7 @@
 import 'dart:async';
-import 'package:ecommerce/curated.dart';
-import 'package:ecommerce/search.dart';
-import 'package:ecommerce/trending.dart';
+import 'package:ecommerce/Screens/curated.dart';
+import 'package:ecommerce/Screens/search.dart';
+import 'package:ecommerce/Screens/trending.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';

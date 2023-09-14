@@ -97,38 +97,47 @@ class _loginState extends State<login> {
   Future<void> signInWithPhoneNumber(String phoneNumber) async {
     FirebaseAuth auth = FirebaseAuth.instance;
 
-    await auth.verifyPhoneNumber(
-      phoneNumber: phoneNumber,
-      verificationCompleted: (PhoneAuthCredential credential) async {
-        await auth.signInWithCredential(credential);
-        // authentication successful, do something
-        setState(() {
-          _isLoading = false; // Hide progress indicator
-        });
-      },
-      verificationFailed: (FirebaseAuthException e) {
-        setState(() {
-          _isLoading = false; // Hide progress indicator
-        });
-        // authentication failed, do something
-      },
-      codeSent: (String verificationId, int? resendToken) async {
-        // code sent to phone number, save verificationId for later use
-        String smsCode = ''; // get sms code from user
-        PhoneAuthCredential credential = PhoneAuthProvider.credential(
-          verificationId: verificationId,
-          smsCode: smsCode,
-        );
-        Get.to(() => OtpPage(), arguments: [verificationId]);
-        await auth.signInWithCredential(credential);
-        // authentication successful, do something
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {
-        setState(() {
-          _isLoading = false; // Hide progress indicator when timeout occurs
-        });
-      },
-    );
+    try {
+      await auth.verifyPhoneNumber(
+        phoneNumber: phoneNumber,
+        verificationCompleted: (PhoneAuthCredential credential) async {
+          await auth.signInWithCredential(credential);
+          // authentication successful, do something
+          setState(() {
+            _isLoading = false; // Hide progress indicator
+          });
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          setState(() {
+            _isLoading = false; // Hide progress indicator
+          });
+          // authentication failed, do something
+        },
+        codeSent: (String verificationId, int? resendToken) async {
+          // code sent to phone number, save verificationId for later use
+          String smsCode = ''; // get sms code from user
+          PhoneAuthCredential credential = PhoneAuthProvider.credential(
+            verificationId: verificationId,
+            smsCode: smsCode,
+          );
+          Get.to(() => OtpPage(), arguments: [verificationId]);
+          await auth.signInWithCredential(credential);
+          // authentication successful, do something
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {
+          setState(() {
+            _isLoading = false; // Hide progress indicator when timeout occurs
+          });
+        },
+      );
+    } on FirebaseAuthException catch (e) {
+      Get.snackbar(
+        e.message.toString(),
+        "Failed",
+        colorText: Colors.black54,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
   }
 
   void _userLogin() {
@@ -163,6 +172,7 @@ class _loginState extends State<login> {
       child: Scaffold(
         backgroundColor: Colors.blueAccent,
         appBar: AppBar(
+          surfaceTintColor: Colors.transparent,
           backgroundColor: Colors.blueAccent,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -190,205 +200,213 @@ class _loginState extends State<login> {
         ),
         body: Padding(
           padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Login For The Best Expirience",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: "Montserrat",
-                    fontSize: 30,
-                    fontWeight: FontWeight.w900),
-              ),
-              SizedBox(height: 20),
-              Text(
-                "Enter Your Phone Number To Continue",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: "Montserrat",
-                    fontSize: 15,
-                    fontWeight: FontWeight.w900),
-              ),
-              SizedBox(height: 20),
-              Container(
-                  width: double.infinity,
-                  height: 60,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(10)),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            showCountryPicker(
-                                showWorldWide: false,
-                                showPhoneCode: true,
-                                context: context,
-                                countryListTheme: const CountryListThemeData(
-                                  bottomSheetHeight: 550,
-                                ),
-                                onSelect: (value) {
-                                  setState(() {
-                                    selectedCountry = value;
-                                  });
-                                });
-                          },
-                          child: Container(
-                            width: 50,
-                            height: 50,
-                            child: Center(
-                              child: Text(
-                                "+ ${selectedCountry.phoneCode}",
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight:
-                                      FontWeight.bold, //letterSpacing: 5
+          child: CustomScrollView(slivers: [
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Login For The Best Expirience",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: "Montserrat",
+                        fontSize: 30,
+                        fontWeight: FontWeight.w900),
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    "Enter Your Phone Number To Continue",
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: "Montserrat",
+                        fontSize: 15,
+                        fontWeight: FontWeight.w900),
+                  ),
+                  SizedBox(height: 20),
+                  Container(
+                      width: double.infinity,
+                      height: 60,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                showCountryPicker(
+                                    showWorldWide: false,
+                                    showPhoneCode: true,
+                                    context: context,
+                                    countryListTheme:
+                                        const CountryListThemeData(
+                                      bottomSheetHeight: 550,
+                                    ),
+                                    onSelect: (value) {
+                                      setState(() {
+                                        selectedCountry = value;
+                                      });
+                                    });
+                              },
+                              child: Container(
+                                width: 50,
+                                height: 50,
+                                child: Center(
+                                  child: Text(
+                                    "+ ${selectedCountry.phoneCode}",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      fontWeight:
+                                          FontWeight.bold, //letterSpacing: 5
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                      Container(
-                          width: 280,
-                          child: TextFormField(
-                            onChanged: (value) {
-                              setState(() {
-                                _phoneNumberController.text = value;
-                              });
-                            },
-                            focusNode: _phoneNumberFocus,
-                            controller: _phoneNumberController,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold, //letterSpacing: 5
+                          Container(
+                            width: 200,
+                            child: TextFormField(
+                              onChanged: (value) {
+                                setState(() {
+                                  _phoneNumberController.text = value;
+                                });
+                              },
+                              focusNode: _phoneNumberFocus,
+                              controller: _phoneNumberController,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold, //letterSpacing: 5
+                              ),
+                              cursorColor: Colors.deepOrangeAccent,
+                              maxLength: 10,
+                              keyboardType: TextInputType.phone,
+                              decoration: InputDecoration(
+                                counterText: "",
+                                border: InputBorder.none,
+                                hintText: "Phone Number",
+                              ),
                             ),
-                            cursorColor: Colors.deepOrangeAccent,
-                            maxLength: 10,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              counterText: "",
-                              border: InputBorder.none,
-                              hintText: "Phone Number",
-                              suffixIcon: _phoneNumberController.text.length > 9
-                                  ? Container(
-                                      height: 30,
-                                      width: 30,
-                                      margin: const EdgeInsets.all(10.0),
-                                      decoration: const BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        color: Colors.green,
-                                      ),
-                                      child: const Icon(
-                                        Icons.done,
-                                        color: Colors.white,
-                                        size: 20,
-                                      ),
-                                    )
-                                  : null,
+                          ),
+                          if (_phoneNumberController.text.length > 9)
+                            Container(
+                              height: 30,
+                              width: 30,
+                              margin: const EdgeInsets.all(10.0),
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.green,
+                              ),
+                              child: Icon(
+                                Icons.done,
+                                color: Colors.white,
+                                size: 20,
+                              ),
                             ),
-                          )),
-                    ],
-                  )),
-              SizedBox(height: 20),
-              Align(
-                alignment: Alignment.topRight,
-                child: Text("Use Email-ID",
-                    style: TextStyle(
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.orangeAccent)),
-              ),
-              SizedBox(height: 30),
-              SizedBox(height: 30),
-              RichText(
-                text: TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(
-                        text: "By Continuing, you agree to Flipkart's ",
-                        style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white)),
-                    TextSpan(
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => Terms()),
-                            );
-                          },
-                        text: 'Terms of Use ',
-                        style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.orangeAccent)),
-                    TextSpan(
-                        text: 'and ',
-                        style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white)),
-                    TextSpan(
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Privacy()),
-                            );
-                          },
-                        text: 'Privacy and Policy.',
-                        style: TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.orangeAccent)),
-                  ],
-                ),
-              ),
-              Spacer(),
-              // ElevatedButton(
-              //   onPressed: _isLoading ||
-              //           !_isInternetConnected // Disable button if no internet
-              //       ? null
-              //       : _userLogin,
-              //   child: _isLoading
-              //       ? CircularProgressIndicator(
-              //           valueColor: AlwaysStoppedAnimation(Colors.teal),
-              //         )
-              //       : Text(
-              //           _isInternetConnected
-              //               ? 'GET OTP'
-              //               : 'Check your network connection',
-              //           style: TextStyle(
-              //             color: Colors.black,
-              //             fontWeight: FontWeight.bold,
-              //           ),
-              //         ),
-              // ),
-              Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Container(
-                  width: double.infinity,
-                  height: 50,
-                  child: MaterialButton(
-                      elevation: 0,
-                      highlightColor: Colors.transparent,
-                      onPressed: () {
-                        _userLogin();
-                      },
-                      color: Colors.orange,
-                      child: Text(
-                        "Continue",
-                        style: TextStyle(
-                            color: Colors.white, fontWeight: FontWeight.bold),
+                        ],
                       )),
-                ),
+                  SizedBox(height: 20),
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: Text("Use Email-ID",
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.orangeAccent)),
+                  ),
+                  SizedBox(height: 30),
+                  SizedBox(height: 30),
+                  RichText(
+                    text: TextSpan(
+                      children: <TextSpan>[
+                        TextSpan(
+                            text: "By Continuing, you agree to Flipkart's ",
+                            style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white)),
+                        TextSpan(
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Terms()),
+                                );
+                              },
+                            text: 'Terms of Use ',
+                            style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.orangeAccent)),
+                        TextSpan(
+                            text: 'and ',
+                            style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white)),
+                        TextSpan(
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => Privacy()),
+                                );
+                              },
+                            text: 'Privacy and Policy.',
+                            style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.orangeAccent)),
+                      ],
+                    ),
+                  ),
+                  Spacer(),
+                  // ElevatedButton(
+                  //   onPressed: _isLoading ||
+                  //           !_isInternetConnected // Disable button if no internet
+                  //       ? null
+                  //       : _userLogin,
+                  //   child: _isLoading
+                  //       ? CircularProgressIndicator(
+                  //           valueColor: AlwaysStoppedAnimation(Colors.teal),
+                  //         )
+                  //       : Text(
+                  //           _isInternetConnected
+                  //               ? 'GET OTP'
+                  //               : 'Check your network connection',
+                  //           style: TextStyle(
+                  //             color: Colors.black,
+                  //             fontWeight: FontWeight.bold,
+                  //           ),
+                  //         ),
+                  // ),
+                  Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Container(
+                      width: double.infinity,
+                      height: 50,
+                      child: MaterialButton(
+                          elevation: 0,
+                          highlightColor: Colors.transparent,
+                          onPressed: () {
+                            _userLogin();
+                          },
+                          color: Colors.orange,
+                          child: Text(
+                            "Continue",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          )),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            )
+          ]),
         ),
       ),
     );

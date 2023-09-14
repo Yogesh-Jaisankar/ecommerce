@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:ecommerce/cart.dart';
-import 'package:ecommerce/reviews.dart';
+import 'package:ecommerce/Screens/reviews.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'cart.dart';
 
 class Curated extends StatefulWidget {
   const Curated({super.key});
